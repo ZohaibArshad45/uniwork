@@ -38,7 +38,7 @@ const availableColors = [
             '--border': '20 5.9% 90%',
             '--input': '20 5.9% 90%',
             '--ring': '20 14.3% 4.1%',
-            '--radius': 'rem',
+            '--radius': '0.5rem',
             '--chart-1': '12 76% 61%',
             '--chart-2': '173 58% 39%',
             '--chart-3': '197 37% 24%',
