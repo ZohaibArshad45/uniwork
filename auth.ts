@@ -1,4 +1,5 @@
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
+import Google from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { connectToDatabase } from './lib/db'
@@ -29,6 +30,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     adapter: MongoDBAdapter(client),
     providers: [
+        Google({
+            allowDangerousEmailAccountLinking: true,
+        }),
         CredentialsProvider({
             credentials: {
                 email: {
@@ -79,24 +83,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
             return token
         },
-        /*************  ✨ Codeium Command 🌟  *************/
         session: async ({ session, user, trigger, token }) => {
             session.user.id = token.sub as string
             session.user.role = token.role as string
             session.user.name = token.name
             if (trigger === 'update') {
-                // TODO: handle the case where user.name is updated
-                if (user.name !== session.user.name) {
-                    await connectToDatabase()
-                    await User.findByIdAndUpdate(user.id, {
-                        name: user.name,
-                    })
-                    session.user.name = user.name
-                }
                 session.user.name = user.name
             }
             return session
         },
-        /******  030eaddf-6eaf-4b1c-b2bc-e137adb510fa  *******/
     },
 })
