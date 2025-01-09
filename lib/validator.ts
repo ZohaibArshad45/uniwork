@@ -188,3 +188,7 @@ export const UserSignUpSchema = UserSignInSchema.extend({
 export const UserNameSchema = z.object({
     name: UserName,
 })
+
+export const ProductUpdateSchema = ProductInputSchema.extend({
+    _id: z.string(),
+})
